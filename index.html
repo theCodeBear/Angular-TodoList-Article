@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title> Getting Started with Angular</title>
+  <link rel="stylesheet" href="prism.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1> Getting Started with Angular </h1>
+
+  <p>
+    AngularJS is a Front-End framework that applies the Model-View-Controller (MVC) architecture to Client-side development. AngularJS works by declaring an Angular Module in the JavaScript files and then putting your website’s Front-End logic in methods of that module. The module is just the place where you put all your Angular code. AngularJS has two-way binding, meaning that changes to inputs on the website will automatically and in real-time be transmitted to Angular’s data store and any changes made in the website’s JavaScript logic to data that is shown to the user is also in real-time transferred to the view the user is seeing.
+  </p>
+  <p>
+    AngularJS is used for making Single Page Applications (SPA), meaning that instead of calling back to the server to load up a new page we simply switch out the html template we are displaying to the user. This is done all in the browser by using Angular’s routing on the client instead of doing the routing on the server. Single Page Applications result in faster web sites.
+  </p>
+
+  <br>
+
+  <h3> Model </h3>
+  <p class="sub-section">
+    The Model is the data store which is used to pass data between the JavaScript logic and the HTML templates. The way to do this is by using Angular’s built-in $scope object. Angular uses two-way data binding so you pass data not just from the JavaScript code to the HTML but also from HTML to the JavaScript, and this is all done automatically thanks to Angular.
+  </p>
+
+  <h3> View </h3>
+  <p class="sub-section">
+    The View refers to what is displayed to the user, specifically the HTML templates that combine both HTML code and Angular directives used to interact with the JavaScript code base.
+  </p>
+
+  <h3> Controller </h3>
+  <p class="sub-section">
+    The View refers to what is displayed to the user, specifically the HTML templates that combine both HTML code and Angular directives used to interact with the JavaScript code base.
+  </p>
+  <br>
+  <p>
+    Let’s jump right in to building a simple To-Do List web app to learn the basics of how AngularJS works!
+  </p>
+
+
+
+  <p> <h2> Setup </h2> </p>
+
+  <p>
+    Let’s start out by setting up our project directory. Go into your filesystem and make a new folder for our project, let’s call it AngularTodo. Inside that folder make four files named:
+    <div class="indent">
+      <em>
+        index.html<br>
+        main.js<br>
+        routes.js<br>
+        styles.css<br>
+      </em>
+    </div>
+  </p>
+  <p>
+    Now make a folder called templates to hold the two templates (pages) we will be displaying to the user. Inside this template folder we will make two files called list.html and main.html.
+    The full project directory structure should look like this:
+    <div class="indent">
+      <em>
+        AngularTodo/<br>
+        …index.html<br>
+        …main.js<br>
+        …routes.js<br>
+        …styles.css<br>
+        …templates/<br>
+        ……list.html<br>
+        ……main.html<br>
+      </em>
+    </div>
+  </p>
+
+  <p>
+    Let’s quickly go over what each of the files in our project will be used for before we start diving in to building the web app.
+  </p>
+
+  <dl>
+    <dt>index.html:</dt>
+    <dd>
+      Our index.html file will just have our HTML boilerplate code and will connect to our Views to our AngularJS code.
+    </dd>
+
+    <dt>main.js:</dt>
+    <dd>
+      The main.js file will hold the code for our Angular controllers we will be creating for this app.
+    </dd>
+
+    <dt>routes.js:</dt>
+    <dd>
+      The routes.js file will handle our client-side routing between the two views we will be showing the user.
+    </dd>
+
+    <dt>styles.css:</dt>
+    <dd>
+      The styles.css will be our stylesheet to give the views a little bit of styling.
+    </dd>
+    <br>
+
+    <p>
+      This is a Single Page Application, which means we will just be routing between the two templates in our templates folder instead of calling back to the server to switch pages. The main.html file in the templates folder will be the view that is displayed to the user when they first come to the website. In this view we will allow the user to create new lists. By clicking on the title of a created list we will redirect the user to the list.html view from which they can add items to the list.
+    </p>
+
+    <p>
+      At any time during this article if you want to see the app running in a browser go to your project directory in the terminal and run it on the localhost with python by running the command line command:
+    </p>
+    <p class="sub-section">
+      <em>python -m SimpleHTTPServer</em>
+    </p>
+    <p>
+      Then in your browser type localhost:8000 into the url path.
+    </p>
+
+
+
+  <p> <h2> HTML Boilerplate and Connecting Views to AngularJS </h2> </p>
+
+  <p>
+    Open up the index.html file and let’s fill it with the basic HTML tags. Type this into index.html:
+  </p>
+
+  <pre><code class="language-markup">
+&lt!DOCTYPE html>
+&lthtml>
+  &lthead>
+    &lttitle> To-do List &lt/title>
+  &lt/head>
+  &ltbody>
+  &lt/body>
+&lt/html>
+  </code></pre>
+
+  <p>
+    Now lets connect this entry point for the application with the third party files we need as well as the rest of our app. In between the &lthead>&lt/head> tags add these lines like so:
+  </p>
+
+  <pre><code class="language-javascript">
+&ltscript src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.5/angular.js">&lt/script>
+&ltscript src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.3/angular-route.js">&lt/script>
+&ltscript src="routes.js"></script>
+&ltscript src="main.js"></script>
+&ltlink rel="stylesheet" type="text/css" href="styles.css">
+  </code></pre>
+
+
+  <p>
+    Let’s go through these lines one by one. Line-by-line this is what we are doing:
+  </p>
+
+  <ol>
+    <li>
+      Loads AngularJS from a CDN.
+    </li>
+    <li>
+      Loads the AngularJS router from CDN so that we can route between our two templates using AngularJS.
+    </li>
+    <li>
+      Let’s our views know about our routes.js file.
+    </li>
+    <li>
+      Let’s our views know about our main.js file.
+    </li>
+    <li>
+      Loads our custom stylesheet, styles.css.
+    </li><br>
+  </ol>
+
+  <p>
+    Now in the opening body tag we will connect our HTML to the AngularJS part of our app using the ng-app directive and setting it equal to the name of our Angular module we will be using. Angular directives are basically attributes or markers added to elements in the DOM which attach behaviors to that element. We are connecting our Angular module to the entire body of our app in this case. This is the normal way you connect an Angular module to your app or site so that Angular acts on the entire body of the DOM. Later we will declare the module our file, main.js. A module is where you put all your Angular controllers and other Angular parts. All Angular directives begin with “ng-“. Change the opening body tag to this:
+  </p>
+
+  <pre><code class="language-markup">
+&ltbody ng-app="todo">
+  </code></pre>
+
+  <p>
+    Now between the body tags we will just add one line of HTML:<br>
+  </p>
+
+  <pre><code class="language-markup">
+&ltdiv ng-view>&lt/div>
+  </code></pre>
+
+  <p>
+    The ng-view connects the templates that make up our Angular views to this base HTML document. Now all files that we route through our Angular router will be loaded into our index.html page inside that tag, which is what makes our app a Single Page Application. This also means we don’t need to reload all those files in the HTML head again. Our index.html file is now done.
+  </p>
+
+  <p>
+    <a href="https://raw.githubusercontent.com/theCodeBear/Angular-Article-Todo-List-Project/master/styles.css" download><strong>Download the CSS file for this project here so that we add in a bit of styling.</strong></a>
+  </p>
+  <br>
+
+
+
+  <h2> Setting Up Our Angular Module, Routing, and Controller </h2>
+
+  <p>
+    Go to the routes.js folder and let’s set up our routing between our two views.<br>
+
+    First we create our Angular module. Remember we called our module “todo” by adding the ng-app=“todo” directive to our <body> tag. The syntax for creating an Angular module is:<br>
+  </p>
+
+  <p class="sub-section"><em>
+    angular.module(‘moduleName’, [an array of angular modules this module depends upon])</em>
+  </p>
+
+  <p>
+    So to create our ‘todo’ module, on the first line of routes.js write this code:
+  </p>
+
+  <pre><code class="language-javascript">
+angular.module('todo', ['ngRoute'])
+  </code></pre>
+
+  <p>
+    We have now connected our HTML views for the app to our Angular code through the use of this module. We included two dependencies for our ‘todo’ module. The first dependency is ’ngRoute’, which comes from the angular-route.js file we loaded into our app in the index.html file. We need this in order to do the client-side routing that we will be doing in this file.
+  </p>
+
+  <p>
+    Now below that first line add these lines:
+  </p>
+
+  <pre><code class="language-javascript">
+.config(['$routeProvider',
+  function($routeProvider) {
+    $routeProvider.when('/', {
+      templateUrl: 'templates/main.html',
+      controller: 'listOfTodos'
+    }).
+    when('/list/:title', {
+      templateUrl: 'templates/list.html',
+      controller: 'eachTodo'
+    }).
+    otherwise({
+      redirectTo: '/'
+    });
+  }
+]);
+  </code></pre>
+
+  <p>
+    The ngRoute dependency provides us with the $routeProvider Angular service, which is the specific tool we use to do the routing. We put this routing in the config() method of our module. The config() method takes an array and the first element is $routeProvider which states that we will be requiring the $routeProvider service in our function. The next element in the array is the function in which we do the routing, and we pass it the $routeProvider service.
+  </p>
+
+  <p>
+    Inside the function we call the $routeProvider and chain together three of its methods, two when() methods and one otherwise() method. The otherwise() method just tells our app what url path to direct the user to if the user tries to put in a url path into our app different from these routes that we have specified in the when() methods. The when() methods are where we tell our app what url paths the user can be directed to, and what HTML template we will use for each as well as what controller to use.
+  </p>
+
+  <p>
+    The first route goes to the head of our url path by simply directing the user to ‘/‘. We then specify that the template we will be showing to the user for the ‘/‘ url is the main.html file which is in the templates folder. Finally we specify the Angular controller to be used, which in our main.js file we will give the name ‘listOfTodos’.
+  </p>
+
+  <p>
+    The other route we use is brings the user to the list.html template. The ‘eachTodo’ controller will be used to handle the logic. But note that we have something interesting in our url path here. Our url path is ‘/list/:title’. Our url for this view is ‘/list’ but we are also passing a value to this view. ‘/:nameOfValue’ is the way you can pass arguments through the Angular routing. The value must be a string and it will show up in the browser’s url.
+  </p>
+
+  <p>
+    Notice above that we didn’t close that first line in the file with a semi-colon. That is because we continued that line by chaining the config() method onto the end of that module declaration. We could have instead assigned that line of code to a variable like:
+  </p>
+  <div class="indent">
+    <em>var app = angular.module(…);</em>
+  </div>
+  <p>
+    And then called config() like so:
+  </p>
+  <div class="indent">
+    <em>app.config(…);</em>
+  </div>
+
+  <p>
+    The routing for our app is now setup.
+  </p>
+
+  <p>
+    We’ll quickly declare our two controllers before creating our two views.
+    In the main.js file add the following code:
+  </p>
+
+  <pre><code class="language-javascript">
+angular.module("todo")
+.controller("listOfTodos", ["$scope", "$location", "$routeParams", "ListService", function($scope, $location, $routeParams, ListService) {
+
+}])
+
+.controller("eachTodo", ['$scope', '$location', '$routeParams', 'ListService', function($scope, $location, $routeParams, ListService) {
+
+}]);
+  </code></pre>
+
+  <p>
+    Here we are using our ‘todo’ angular module. Because we already set the dependencies for this module in the routes.js file we don’t need to include the dependencies array on the array.module() line of code. Because we declare the dependencies in routes.js and then simply use the same module in main.js we have to include routes.js in our index.html before we include main.js. If you look in index.html you can see we did this, if we hadn’t it would cause errors.
+  </p>
+
+  <p>
+    We then create two controllers to handle all the logic for our user’s actions in the app by calling the controller() method twice on our module and giving the controllers the name ‘listOfTodos’ and ‘eachTodo’. We then put all of the Angular services we will be using in these controllers as string elements in an array, and the last element is the function in which we will put all our controller logic. We will leave the controllers empty for now and come back to it after we have made our views. But note that the reason we declare things in an array inside these angular.module methods is because Angular requires this for minification. If you aren’t minifying then you don’t need that array and you can just put this:
+  </p>
+
+  <pre><code class="language-javascript">
+.controller("listOfTodos", function($scope, $location, $routeParams, ListService) {       });
+  </code></pre>
+
+  <p>
+    ListService is a custom service which we will define later. Custom Angular services allow sharing of data between controllers, so we will use it to share our object of lists between the two controllers.
+  </p>
+
+
+
+  <h2> Creating our Views </h2>
+
+  <h3> main.html: </h3>
+
+  <p>
+    Our main.html file will just have an input box with a button that lets the user type in the name of a to-do list and create it. Each list title that exists will be displayed below. Each list can be clicked on to bring the user to the list.html view in which they can add items to that list. There is also an “x” button with each list in order to delete that list. We will create an unordered list that will display our list of to-do lists.
+  </p>
+
+  <p>
+    Go into our main.html file and add our input textbox and button used to create lists:
+  </p>
+
+  <pre><code class="language-markup">
+&ltdiv class="form">
+  &ltinput type="text" id="todoTitle" class="inputs" placeholder="Todo list Title">
+  &ltbutton type="button" class="inputButton"> + &lt/button>
+&lt/div>
+
+&ltbr>&ltbr>
+
+&ltul class="lists">
+  &ltli>
+    &ltspan class="item clickable">&lt/span>
+    &ltbutton type="button" id="deleteList">x&lt/button>
+  &lt/li>
+&lt/ul>
+  </code></pre>
+
+  <p>
+    We have now created our main.html file, except we haven’t included any of our Angular directives which pass data and functionality between our controller and this view. First we will fill out our list.html file so that our views will be all done except including the Angular directives we need.
+  </p>
+  <br>
+
+  <h3> list.html: </h3>
+
+  <p>
+    Go to our empty list.html file and add the following code:
+  </p>
+
+  <pre><code class="language-markup">
+&ltdiv class="form">
+  &ltinput type="text" id="todoItem" class="inputs"placeholder="Add an Item">
+  &ltbutton type="button" class="inputButton"> + &lt/button>
+&lt/div>
+
+&ltbr>&ltbr>
+
+&ltul class="lists">
+  &ltli>
+    &ltspan class="item">&lt/span>
+    &ltbutton type="button">x&lt/button>
+  &lt/li>
+&lt/ul>
+  </code></pre>
+
+  <p>
+    Okay, now our app is set up and it is time to do all the Angular controller logic in main.js and put the appropriate angular directives in our two views, as well as create our custom Angular Service.
+  </p>
+
+
+
+  <h2> Creating an Angular Service </h2>
+
+  <p>
+    Custom Services in Angular are used to store data outside of controller and outside the $scope object which acts as Angular’s Model and must be reinitialized for each controller, and therefore can’t keep it’s data outside the controllers. We will create a service that will simply hold an object that will store our to-do lists and have get and set methods to retrieve and alter the lists. The service will allow us to move between the two pages of the app without losing data, as long as we don’t refresh any of the pages. Since we aren’t using a database of any kind if we refresh the page we will lose our data. In main.js, between the angular.module() line of code and the first controller add the following code to create our Service:
+  </p>
+
+  <pre><code class="language-javascript">
+.service('ListService', function() {
+  this.list = {};
+  this.getList = function() { return this.list; };
+  this.saveList = function(list) { this.list = list; };
+})
+  </code></pre>
+
+  <p>
+    Here we create a service called ListService and associate an object called list with it using this.list, which is initialized to an empty object because when the app starts all the lists will be empty. We then create two functions for our service. The first is called getList which simply returns the list so that our controllers can access the Service’s list object. The second is saveList which allows us to edit the lists from our controllers when the user makes a change in the lists.
+  </p>
+
+
+
+  <h2> Controller Logic for main.html </h2>
+
+  <p>
+    Time to open up main.js and start writing code in the “listOfTodos” controller we created earlier.
+  </p>
+
+  <p>
+    First off lets give focus to our view’s input textbox when the user first opens the app. When a view is displayed the controller associated with that view is loaded up, so by putting this as the first line in the controller the focus will always initially be on the textbox in both our views when they are displayed:
+  </p>
+
+  <pre><code class="language-javascript">
+document.getElementsByTagName("input")[0].focus();
+  </code></pre>
+
+  <p>
+    Next we initialize a $scope variable with the lists object we just created in the Service, which is currently just an empty list. $scope is a built-in Angular Service. The functionality of $scope is that it is Angular’s Model and it also has two-way binding which means it acts as the glue between the view and the controller. You can create a scope variable in the controller and then display it in a view or create one by directly binding it in the view to an element in the DOM and then access it elsewhere in the that view and access it in code back in the controller.
+  </p>
+
+  <p>
+    Any property that is added to the $scope object can be used anywhere within the current controller as well as displayed in the associated view. Type this as the second line of code in the controller:
+  </p>
+
+  <pre><code class="language-javascript">
+$scope.lists = ListService.getList();
+  </code></pre>
+
+  <p>
+    Now we will create methods on the $scope object and connect them the main.html view in order to allow the user to create lists, delete lists, and click on a list to pull it up in the list.html view.
+  </p>
+
+  <p>
+    First we will make it so the user can create lists. Go to main.html and we will add two Angular directives. All Angular directives have the form: “ng-“. We will add directives to each of the two elements in the &ltdiv> that has our input box and button. In the input tag add the ng-model directive ng-model=“viewTitle”. The model directive creates a $scope variable with the name you gave it, viewTitle, and automatically binds it to that input box. So the value of $scope.viewTitle will change in realtime based on what the user types into the input box, and we can access $scope.viewTitle in the controller. The input tag now looks like this:
+  </p>
+
+  <pre><code class="language-markup">
+&ltinput type="text" id="todoTitle" class="inputs" ng-model="viewTitle" placeholder="Todo List Title">
+  </code></pre>
+
+  <p>
+    Now we add an Angular click directive to the button on the next line like so, ng-click=“createList()”. This is Angular’s way to call a method from the controller, called $scope.createList(), when the user clicks on an element in a view. The button element now looks like this:
+  </p>
+
+  <pre><code class="language-markup">
+&ltbutton type="button" class="inputButton" ng-click="createList()"> + &lt/button>
+  </code></pre>
+
+  <p>
+    Now let’s create the createList() function in our listOfTodos controller to add the user created lists to our group of lists. Put this code in the controller in main.js:
+  </p>
+
+  <pre><code class="language-markup">
+1.  $scope.createList = function() {
+2.    if (!!$scope.viewTitle !== false) {
+3.      $scope.lists[$scope.viewTitle] = [];
+4.      $scope.viewTitle = "";
+    }
+5.    document.getElementById("todoTitle").focus();
+6.    ListService.saveList($scope.lists);
+  };
+  </code></pre>
+
+  <p>
+    I've added line numbers to the above code so that we can go through these lines one by one:
+  </p>
+
+  <p>
+    <ol>
+      <li>
+        We create the createList method of the $scope object and set it equal to an anonymous function.
+      </li>
+      <li>
+        Asking if the value of $scope.viewTitle doesn’t evaluate to false. The !! just turns value of $scope.viewTitle
+        into an actual true or false boolean value. This line is just asking if the user has typed anything into the
+        input box, if they have typed something when they press the button to create a to-do list then we want to
+        add the name of their list to our data object that contains all the lists, otherwise we don’t do anything.
+      </li>
+      <li>
+        This is where we create the structure of our data object to hold the user’s lists. Before any lists have been
+        created we initialized $scope.lists to the empty lists hash. Here we create new key-value pairs in
+        $scope.lists in which they key is the title of the list the user has put in the textbox, and we initialized the
+        value to an empty array, which will eventual hold all the tasks the user adds to this list.
+      </li>
+      <li>
+        After the user clicks the button to add the list we want the to clear the input box, which is what we do here.
+      </li>
+      <li>
+        We are now out of the if-block. No matter if there is anything in the input box or not, we always want the
+        focus to return to that box after the user has clicked to create a list. So this line just returns the focus to
+        the input.
+      </li>
+      <li>
+        We are using the ListService service here to hold our data when we switch between controllers. We call the method on that service that saves our new list object to the service.
+      </li>
+    </ol>
+  </p>
+
+  <p>
+    Displaying the list of to-do lists:
+  </p>
+
+  <p>
+    Go to main.html and inside the opening &ltli> tag add the Angular repeat directive which acts as a for-in loop for collections. Since we are using a hash to store our lists we can get both our key and value for each pair in our $scope.lists object. Edit the &ltli> tag:
+  </p>
+
+  <pre><code class="language-markup">
+&ltli ng-repeat="(key, value) in lists)">
+  </code></pre>
+
+  <p>
+    This will create a <li> tag for each item in our $scope.lists object. Note that in the view we don’t have to specify that it is part of the $scope service because only $scope variables can be used between the controller and the view in this way. We now need to display the title of each to-do list and we are going to display how many items are left to do in each to-do list. Edit the span tag to look like this:
+  </p>
+
+  <pre><code class="language-markup">
+&ltspan class="item clickable" ng-click="gotoList(key)"> {{ key }} ({{value.length }})&lt/span>
+  </code></pre>
+
+  <p>
+    Here we added ng-click which will call the $scope.gotoList() function when the user clicks the list item that displays the title. We are sending the key, which is the title of that list, to the function. This function will then display the view for that specific list. Note the {{ key }}, using two squiggly braces with an Angular value in between them is the way you display a $scope value in a view. In this case it is displaying they key (the title) of each to-do list. We then wrote ({{ value.length}}) which will display how many items are left in each to-do list, surrounded by parenthesis. When each list is created it will be an empty list so the number displayed will always be zero until the user adds items.
+  </p>
+
+  <p>
+    Now let’s go to main.js to write the gotoList() function:
+  </p>
+
+  <pre><code class="language-javascript">
+$scope.gotoList = function(title) {
+  $location.path("/list/" + title);
+};
+  </code></pre>
+
+  <p>
+    Here we pass the title of the to-do list from main.html to this function. This code passes the title as an argument through the angular router in order to display the list’s data in the list.html view. The router.js file contains a line that says:
+  </p>
+
+  <div class="sub-section">
+    <em>when(‘/list/:title’, …</em>
+  </div>
+
+  <p>
+    The :title is how you pass an argument through the router to another view. Anytime you have a ‘/:argument’ whatever string is passed in the argument’s place in the url path can be retrieved through the $routeParams service in the controller. Notice we don’t include the colon in the actual url path, the colon is just used in the routing section to signify an argument to pass goes there.
+  </p>
+
+  <p>
+    The last thing we need to set up for main.html is make the button work to delete a to-do list. In main.html add a click directive to the final button like this:
+  </p>
+
+  <pre><code class="language-markup">
+&ltbutton type="button" id="deleteList" ng-click="deleteList(key)">x&lt/button>
+  </code></pre>
+
+  <p>
+    Then in main.js we will define the deleteList() function like this:
+  </p>
+
+  <pre><code class="language-javascript">
+$scope.deleteList = function(title) {
+  delete $scope.lists[title];
+  ListService.saveList($scope.lists);
+}
+  </code></pre>
+
+  <p>
+    The delete keyword is what is used to delete a key-value pair in an object in JavaScript. So this simply deletes the list that the user clicked to delete, specifying the key by the value of the title. Then we just save the updated list to the object in our custom service.
+  </p>
+
+  <h2> Controller Logic for list.html </h2>
+
+  <p>
+    Now we need to finish our app by handling user actions in the list.html view, which is the view that shows an individual to-do list that the user has chosen to view. In this view the user can add items to the list and delete items, just like in the main.html file. For this we will be filling up the ‘eachTodo’ controller in main.js.
+  </p>
+
+  <p>
+    First we write this line of code again as the first line in the controller in order to set the focus of the cursor into the input element.
+  </p>
+
+  <pre><code class="language-javascript">
+document.getElementsByTagName("input")[0].focus();
+  </code></pre>
+
+  <p>
+    Since we sent a string argument to the list.html view through the Angular router lets first assign that value to a variable on the $scope object so that we can access it in the view. We also need to bring in all the data from the Service and save it into $scope.lists in this controller so we have access to our data. In the same controller we’ve been using, put this line below our previous code:
+  </p>
+
+  <pre><code class="language-javascript">
+$scope.listTitle = $routeParams.title;
+$scope.lists = ListService.getList();
+  </code></pre>
+
+  <p>
+    We named our argument in the router :title so here we access it through the $routeParams service with $routeParams.title. Now that we have the title lets go into list.html and at the top of the file write this line of text to display the title in all uppercase letters:
+  </p>
+
+  <pre><code class="language-markup">
+&lth1>{{ listTitle.toUpperCase() }}&lt/h1>
+  </code></pre>
+
+  <p>
+    This rest will be very similar to what we just did in the main.html view. Add a model directive to the input box so that through Angular we can in real-time access whatever the user types in. Additionally, we will add an Angular click directive to the button that adds items to the list, calling a function createItem() which we will make in the controller to actually add the item to the list. Edit these two lines to now look like this:
+  </p>
+
+  <pre><code class="language-markup">
+&ltinput type="text" id="todoItem" class="inputs col-md-9" ng-model="item" placeholder="Add an Item">
+&ltbutton type="button" class="inputButton btn btn-primary" ng-click="createItem()">+&lt/button>
+  </code></pre>
+
+  <p>
+    Now let’s go back to main.js to make that createItem() function. In the controller type this:
+  </p>
+
+  <pre><code class="language-javascript">
+$scope.createItem = function() {
+  var alreadyExists = false;
+  for (i in $scope.lists[$scope.listTitle])
+    if ($scope.lists[$scope.listTitle][i] === $scope.item)
+      alreadyExists = true;
+  if (!alreadyExists)
+    $scope.lists[$scope.listTitle].push($scope.item);
+  $scope.item= "";
+  document.getElementById("todoItem").focus();
+}
+  </code></pre>
+
+  <p>
+    This function creates a flag to set whether or not what the user types in ($scope.listTitle) is already in the list. It does this by looping through everything already in the list, checking everything against the current item, and if it doesn’t exist then it is added to the list. The input box is then cleared and focus is returned to it.
+  </p>
+
+  <p>
+    Back in list.html we need to use the repeat directive in the &ltli> tag in order to show a list of all the items in the to-do list. We actual show the items the user has added by adding {{ item }} to the span tag in the list item. Finally we will add a click directive to the delete button and fill out its logic into the controller to allow the user to delete items in the to-do list, thus finishing our app. Edit the code in list.html to look like this:
+  </p>
+
+  <pre><code class="language-markup">
+&ltli ng-repeat="item in lists[listTitle]">
+  &ltspan class="item"> {{ item }} &lt/span>
+  &ltbutton type="button" ng-click="deleteItem(item)">x&lt/button>
+&lt/li>
+  </code></pre>
+
+  <p>
+    This loops through each item in the array of the key-value pair identified by the $scope.listTitle key we defined, and each element of the array is referred to by “item”. In the span tag we then display each of these items in the list with {{ item }}. We then send each item to deleteItem() through the ng-click directive. Let’s now make the logic for this function in main.js:
+  </p>
+
+  <pre><code class="language-javascript">
+$scope.deleteItem = function(item) {
+  var currentList = $scope.lists[$scope.listTitle];
+  currentList.splice(currentList.indexOf(item), 1);
+  ListService.saveList($scope.lists);
+}
+  </code></pre>
+
+  <p>
+    The first line of this function we are just declaring a new variable called currentList to hold the array held in $scope.lists[$scope.listTitle] just so that the next line isn’t super long. The second line uses the array splice method in JavaScript to delete one item from the current to-do list, which it finds by getting the index of the item the user decided to delete. The final line saves our updated data object that stores all the user’s to-do lists to the service’s list object.
+  </p>
+
+  <p>
+    Because we are not using a database to really store the user’s to-do lists anytime you refresh the page all the lists will be deleted. So to move from the list.html view back to the main.html view just hit the back button on the browser and all the data will still be there in its updated form.
+  </p>
+
+  <p>
+    The to-do list app is now done. Test it out!
+  </p>
+
+
+  <script src="prism.js"></script>
+</body>
+</html>
